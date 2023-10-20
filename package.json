@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:docker": "docker build -t hilton-web .",
-    "start:docker": "docker run -p 8080:80 -d --name hilton-web hilton-web",
+    "docker:build": "docker build -t hilton-web .",
+    "docker:run": "docker run -p 8080:80 -d --name hilton-web hilton-web",
     "preview": "vite preview"
   },
   "dependencies": {
