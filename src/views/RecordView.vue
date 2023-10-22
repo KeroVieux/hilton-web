@@ -123,6 +123,7 @@ onMounted(async () => {
 <template>
   <div>
     <el-dialog
+        id="updateDialog"
         v-model="updateReservationVisible"
         title="Update Reservation"
     >
@@ -228,7 +229,7 @@ onMounted(async () => {
                   <el-button size="small" type="success" text >Complete</el-button>
                 </template>
               </el-popconfirm>
-              <el-button v-if="item.status !== 3" size="small" type="warning" text @click="setCurrentReservation(item)">Update</el-button>
+              <el-button v-if="item.status !== 3" size="small" type="warning" text @click="setCurrentReservation(item)" class="update-btn">Update</el-button>
               <el-popconfirm
                   v-if="item.status !== 3"
                   @confirm="updateStatus(item._id, 0)"

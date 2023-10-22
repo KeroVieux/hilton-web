@@ -2,11 +2,13 @@
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useCurrentAdmin } from '@/stores/currentAdmin'
 import qs from 'qs'
 import store from 'store'
 import md5 from 'md5'
 import {$axios} from "@/assets/axios";
 
+const currentAdminStore = useCurrentAdmin()
 const router = useRouter()
 const currentAdmin = ref({})
 const adminFormRef = ref()
@@ -44,6 +46,7 @@ const submitAdmin = async (formEl) => {
         return ElMessage.error('Oops, the name or the password is incorrect.')
       }
       store.set('admin', data[0])
+      currentAdminStore.currentAdmin = store.get('admin')
       currentAdmin.value = data[0]
       ElMessage({
         message: `Hi, ${currentAdmin.value.name}.`,

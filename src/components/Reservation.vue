@@ -1,11 +1,13 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { ref, onMounted, defineProps, toRefs, defineEmits } from 'vue'
+import { useCurrentGuest } from '@/stores/currentGuest'
 import { ElMessage } from 'element-plus'
 import store from 'store'
 import dayjs from 'dayjs'
 import qs from 'qs'
 import {$axios} from '@/assets/axios'
+const currentGuestStore = useCurrentGuest()
 
 const router = useRouter()
 const props = defineProps({
@@ -60,6 +62,7 @@ const submitForm = async (formEl) => {
           name: reservationForm.value.name,
           phone: reservationForm.value.phone,
         })
+        currentGuestStore.currentGuest = store.get('guest')
         router.push('/records')
         ElMessage({
           message: 'Reservation is created.',
@@ -138,7 +141,7 @@ onMounted( async () => {
     })}`)
     tables.value = tableData
     reservationForm.value.tableId = tableData[0]._id
-    reservationForm.value.expectedAt = dayjs().toISOString()
+    reservationForm.value.expectedAt = dayjs().add(1, 'd').toISOString()
 
     timing.value = timingNoon.value[0]
   }
@@ -205,9 +208,9 @@ onMounted( async () => {
                   prop="name">
       <el-input id="name" v-model="reservationForm.name"/>
     </el-form-item>
-    <el-form-item id="phone" v-if="mode !== 'updating'" label="Phone number"
+    <el-form-item v-if="mode !== 'updating'" label="Phone number"
                   prop="phone">
-      <el-input v-model="reservationForm.phone"/>
+      <el-input id="phone" v-model="reservationForm.phone"/>
     </el-form-item>
     <el-form-item label="Remark"
                   prop="remark">
@@ -216,6 +219,7 @@ onMounted( async () => {
     </el-form-item>
     <el-form-item>
       <el-button type="primary"
+                 id="submitReservation"
                  @click="submitForm(reservationFormRef)">
         Confirm
       </el-button>
