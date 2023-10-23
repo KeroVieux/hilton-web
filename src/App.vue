@@ -53,7 +53,7 @@ onMounted(async () => {
           :router="true"
       >
         <el-menu-item index="/" v-if="!currentAdmin">Reservation</el-menu-item>
-        <el-menu-item index="/records" v-if="currentGuest || currentAdmin">Records</el-menu-item>
+        <el-menu-item index="/records">Records</el-menu-item>
         <el-menu-item @click="handleUser">{{currentAdmin ? `I'm not ${currentAdmin.name}.` : 'I\'m a staff.'}}</el-menu-item>
       </el-menu>
     </header>

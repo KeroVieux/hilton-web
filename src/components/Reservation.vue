@@ -214,7 +214,7 @@ onMounted( async () => {
     </el-form-item>
     <el-form-item label="Remark"
                   prop="remark">
-      <el-input v-model="reservationForm.remark"
+      <el-input id="remark" v-model="reservationForm.remark"
                 type="textarea"/>
     </el-form-item>
     <el-form-item>

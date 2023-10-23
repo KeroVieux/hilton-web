@@ -111,12 +111,13 @@ const handleQuery = async () => {
       lt: dayjs(queryForm.value.date).endOf('d').toISOString(),
     }
   }
-  console.log('extra', extra)
   await fetchReservations(extra)
 }
 onMounted(async () => {
   currentAdmin.value = store.get('admin')
-  await fetchReservations()
+  if (currentAdmin.value || currentGuest.value) {
+    await fetchReservations()
+  }
 })
 </script>
 
@@ -255,17 +256,17 @@ onMounted(async () => {
           <div>Arrive Time</div>
           <div class="text-14 text-gray-500">{{dayjs(item.expectedAt).format('YYYY-MM-DD HH:mm')}}</div>
         </div>
-        <div class="mb-10">
+        <div class="mb-10" v-if="currentAdmin">
           <div>Updated Time</div>
           <div class="text-14 text-gray-500">{{dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')}}</div>
         </div>
-        <div class="mb-10">
+        <div class="mb-10" v-if="currentAdmin">
           <div>Created Time</div>
           <div class="text-14 text-gray-500">{{dayjs(item.createdAt).format('YYYY-MM-DD HH:mm')}}</div>
         </div>
         <div v-if="item.remark">
           <div>Remark</div>
-          <div class="text-14 text-gray-500">{{item.remark}}</div>
+          <div class="text-14 text-gray-500" id="remarkText">{{item.remark}}</div>
         </div>
       </div>
     </el-card>
